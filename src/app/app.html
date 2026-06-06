@@ -1,0 +1,61 @@
+<div class="container mt-5">
+  <div class="row justify-content-center mb-4">
+    <div class="col-md-6">
+      <h2 class="text-center mb-4 text-primary">Rick & Morty Finder</h2>
+      <div class="input-group">
+        <span class="input-group-text" id="search-addon">🔍</span>
+        <input 
+          type="text" 
+          class="form-control form-control-lg" 
+          placeholder="Busca un personaje (ej. Rick, Morty, Summer...)" 
+          [value]="searchQuery()"
+          (input)="onSearch($event)"
+          aria-describedby="search-addon"
+        />
+      </div>
+    </div>
+  </div>
+
+  @if (charactersResource.isLoading()) {
+    <div class="d-flex justify-content-center my-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+  }
+
+  @if (charactersResource.error()) {
+    <div class="alert alert-warning text-center" role="alert">
+      No se encontraron personajes que coincidan con la búsqueda o hubo un problema de conexión.
+    </div>
+  }
+
+  @if (charactersResource.value(); as response) {
+    <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+      @for (character of response.results; track character.id) {
+        <div class="col">
+          <div class="card h-100 shadow-sm custom-card">
+            <img [src]="character.image" class="card-img-top" [alt]="character.name">
+            <div class="card-body">
+              <h5 class="card-title text-truncate fw-bold">{{ character.name }}</h5>
+              <p class="card-text mb-1">
+                <span class="badge" [ngClass]="{
+                  'bg-success': character.status === 'Alive',
+                  'bg-danger': character.status === 'Dead',
+                  'bg-secondary': character.status === 'unknown'
+                }">
+                  {{ character.status }}
+                </span>
+                <span class="ms-2 text-muted">{{ character.species }}</span>
+              </p>
+              <p class="card-text small text-muted mb-0">
+                <strong>Última ubicación:</strong><br>
+                {{ character.location.name }}
+              </p>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
