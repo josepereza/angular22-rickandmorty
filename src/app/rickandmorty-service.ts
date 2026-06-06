@@ -37,11 +37,9 @@ debouncedQuery = debounced(this.searchQuery, 500);  //debounce de 500ms para evi
 
 
 
-// Esto es lo que habria que hacer si no tuvieramos el signal debounced, que es una función experimental que Angular ha introducido para facilitar el manejo de casos como este sin tener que implementar manualmente la lógica de debounce con setTimeout y clearTimeout.
+// Este codigo de abajo  es lo que habria que hacer si no tuvieramos el signal debounced, que es una función experimental que Angular ha introducido para facilitar el manejo de casos como este sin tener que implementar manualmente la lógica de debounce con setTimeout y clearTimeout.
  
 /*
-
-
 // 1. Este cambia INMEDIATAMENTE con cada letra que escribe el usuario
 readonly searchQuery = signal<string>('');
   
