@@ -2,6 +2,15 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.0.
 
+## 2 Ramas o branches.
+### Gestión del Rendimiento y Detección de Cambios (Change Detection)
+
+* 1 Rama: El enfoque tradicional (onSearch(event)):
+Cada vez que el usuario presiona una tecla, se dispara un evento del DOM, se ejecuta tu función, se llama al servicio y, por defecto en Angular clásico (con Zone.js), se activa la detección de cambios en todo el componente o incluso en toda la aplicación. Si no se usa OnPush, Angular re-renderiza partes innecesarias para comprobar qué cambió.
+
+* 2 Rama: El enfoque con Signals:
+Las Signals introducen reactividad fina (fine-grained reactivity). Angular sabe exactamente qué parte del template depende de la señal searchQuery. Cuando la señal cambia, Angular actualiza únicamente el nodo del DOM que cambió (el input y la lista filtrada), sin necesidad de escanear todo el árbol de componentes. En Angular 22 (que camina hacia aplicaciones Zoneless), las señales son la única forma de lograr este rendimiento óptimo.
+
 ## Development server
 
 To start a local development server, run:
