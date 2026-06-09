@@ -2,6 +2,7 @@ import { afterNextRender, Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { RickandmortyService } from './rickandmorty-service';
 import { NgClass } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 // Interfaz básica para tipar la respuesta de la API
 interface RickAndMortyResponse {
@@ -16,7 +17,7 @@ interface RickAndMortyResponse {
 }
 @Component({
   selector: 'app-root',
-  imports: [ NgClass],
+  imports: [ NgClass,FormsModule],
   templateUrl: './app.html',
   styleUrls: ['./app.css'],
 })
@@ -25,37 +26,29 @@ export class App {
   
  /* SIN SERVICIO
  
- // Signal para almacenar el texto de búsqueda
+// 1. Signal que almacena el texto de búsqueda
   searchQuery = signal<string>('');
 
-  // httpResource que reacciona automáticamente cuando 'searchQuery' cambia
+  // 2. El recurso HTTP reacciona automáticamente cada vez que 'searchQuery' cambia
   charactersResource = httpResource<RickAndMortyResponse>(() => {
     const query = this.searchQuery();
-    // Si el buscador está vacío, puedes decidir no traer nada o traer la lista inicial
-    const url = `https://rickandmortyapi.com/api/character/?name=${query}`;
-    return url;
-  });
-
-  // Método para manejar el input del usuario
-  onSearch(event: Event): void {
-    const element = event.target as HTMLInputElement;
-    this.searchQuery.set(element.value);
-  } */
+    return `https://rickandmortyapi.com/api/character/?name=${query}`;
+  }); */
 
 
 
     // CON SERVICIO
 
-    // Inyectamos el servicio usando la función inject() nativa de Angular
+  
+  // 1. Inyectamos el servicio
   private rmService = inject(RickandmortyService);
 
-  // Exponemos el recurso y el query al HTML exponiendo las propiedades del servicio
+  // 2. Exponemos los recursos necesarios directamente al template
   charactersResource = this.rmService.charactersResource;
   searchQuery = this.rmService.searchQuery;
 
-  // Manejador del evento input
-  onSearch(event: Event): void {
-    const element = event.target as HTMLInputElement;
-    this.rmService.updateSearchQuery(element.value);
+  // 3. Método limpio: Cero manipulación del DOM nativo o 'Event'
+  updateSearch(value: string): void {
+    this.rmService.updateSearchQuery(value);
   }
 }

@@ -8,8 +8,8 @@
           type="text" 
           class="form-control form-control-lg" 
           placeholder="Busca un personaje (ej. Rick, Morty, Summer...)" 
-          [value]="searchQuery()"
-          (input)="onSearch($event)"
+        [ngModel]="searchQuery()" 
+        (ngModelChange)="updateSearch( $event )"
           aria-describedby="search-addon"
         />
       </div>
